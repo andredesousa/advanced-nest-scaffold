@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "incremental": false,
+    "module": "commonjs",
+    "outDir": "./dist",
+    "paths": {
+      "@db/models/*": ["./db/models/*"]
+    },
+    "removeComments": true,
+    "sourceMap": false,
+    "strict": true,
+    "target": "es2020",
+    "typeRoots": ["./node_modules/@types", "./src/types.d.ts"]
+  },
+  "exclude": ["node_modules", "dist", "reports"]
+}

@@ -1,0 +1,19 @@
+---
+- name: Deploy NestJS 7
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Deploy to Docker Swarm
+      docker_stack:
+        name: "nestjs"
+        state: present
+        compose:
+          - version: "3.7"
+            services:
+              nestjs:
+                image: nestjs:latest
+                restart: always
+                ports:
+                  - "8080:3000"
+        resolve_image: always
