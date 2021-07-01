@@ -1,4 +1,4 @@
-# Advanced NestJS Scaffold
+# 🚀 Advanced NestJS Scaffold
 
 [Nest](https://github.com/nestjs/nest) is a progressive [Node.js](http://nodejs.org) framework for building efficient and scalable server-side applications.
 This project was generated with [Nest CLI](https://github.com/nestjs/nest-cli) version 7 and [Node.js](https://nodejs.org/en/about/releases) version 14.
@@ -28,6 +28,11 @@ Based on best practices from the community, Nest and [Angular coding style guide
 
 ```html
 ├── cicd
+├── db
+|  ├── migrations
+|  ├── models
+|  ├── seeders
+|  └── config.js
 ├── e2e
 |  ├── page-objects
 |  ├── specs
@@ -35,23 +40,40 @@ Based on best practices from the community, Nest and [Angular coding style guide
 |  └── jest.config.js
 ├── src
 |  ├── app
+|  |  ├── auth
+|  |  |  ├── controllers
+|  |  |  ├── dtos
+|  |  |  ├── services
+|  |  |  └── auth.module.ts
+|  |  ├── core
+|  |  |  └── core.module.ts
+|  |  ├── feature-example
+|  |  |  ├── controllers
+|  |  |  ├── dtos
+|  |  |  ├── services
+|  |  |  └── feature.module.ts
+|  |  ├── shared
+|  |  |  └── shared.module.ts
 |  |  ├── app.controller.spec.ts
 |  |  ├── app.controller.ts
-|  |  ├── app.module.ts
-|  |  ├── app.service.spec.ts
-|  |  └── app.service.ts
+|  |  ├── app.logger.ts
+|  |  └── app.module.ts
 |  ├── assets
 |  ├── environments
 |  |  ├── environment.prod.ts
 |  |  └── environment.ts
 |  ├── main.ts
-|  └── swagger.ts
+|  ├── swagger.ts
+|  ├── test.ts
+|  └── types.d.ts
 ├── .commitlintrc.json
 ├── .editorconfig
+├── .env
 ├── .eslintrc.json
 ├── .gitignore
 ├── .lintstagedrc.json
 ├── .prettierrc.json
+├── .sequelizerc
 ├── CHANGELOG.md
 ├── jest.config.js
 ├── nest-cli.json
@@ -67,12 +89,19 @@ Based on best practices from the community, Nest and [Angular coding style guide
 All of the app's code goes in a folder named `src`. The end-to-end tests are in the `e2e` folder.
 In Nest, everything is organized in modules, and every application have at least one of them, the `app` root module.
 The `app` module is the entry point of the application and is the module that Nest uses to bootstrap the application.
+
+The `auth` module contains the code responsible for authentication and authorization in the application.
+The `core` module takes on the role of the `app` root module.
+The `feature-*` folders contains all different feature modules. These modules are independent of each other.
+Do declare filters, pipes, decorators, etc. in the `shared` module when those items will be re-used in other feature modules.
+The `shared` module shouldn't have any dependency to the rest of the application.
+
 Static files are placed in `assets` folder.
 
 ## Available npm scripts
 
 The scripts in [package.json](package.json) file were built with simplicity in mind to automate as much repetitive tasks as possible and help developers focus on what really matters.
-There are commands to start the application, code linting and formatting, to run unit tests, to run e2e tests, to generate project documentation via [Compodoc](https://compodoc.app/) and project changelog, npm audit, to build, release and deploy the application to [Docker Swarm](https://docs.docker.com/engine/swarm/), and others.
+There are commands to start the application, code linting and formatting, code analysis via [SonarQube](https://www.sonarqube.org/), to run unit tests, e2e and smoke tests, to generate project documentation via [Compodoc](https://compodoc.app/) and project changelog, npm audit, to build, release and deploy the application to [Docker Swarm](https://docs.docker.com/engine/swarm/), and others.
 All the commands should be executed in a console inside the root directory.
 
 ## Code scaffolding
@@ -84,7 +113,7 @@ You can also use `nest generate filter|pipe|service|class|guard|middleware|gatew
 
 Use `npm run start` to run the app in the development mode.
 This app includes [Swagger](https://swagger.io/). It is available at [http://localhost:3000/api](http://localhost:3000/api).
-The OpenAPI Specification is exportable by running `npm run swagger` script.
+The [OpenAPI specification](https://github.com/OAI/OpenAPI-Specification) is exportable by running `npm run swagger` script.
 
 ## Data persistence
 
@@ -95,10 +124,15 @@ In local development, you need to provide a connection to a PostgreSQL instance.
 docker run -d -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret postgres
 ```
 
+The project supports database migrations. Use `npm run db:create` to create the project database and `npm run migrate` to up all migrations.
+Use `npm run db:models` to generate or update the table models in the `db/models` folder.
+The project uses [Sequelize](https://sequelize.org/) a popular Object Relational Mapper (ORM) written in a vanilla JavaScript.
+
 ## Linting and formatting code
 
 Use `npm run lint` to analyze your code. It includes, `ESLint` and `Prettier`.
 Many problems can be automatically fixed with `npm run lint:fix`.
+These checks are supplemented with `SonarQube`.
 
 Depending on your editor, you may want to add an editor extension to lint and format your code while we type or on-save.
 To ensure all files committed to git don't have any TypeScript, linting, or formatting errors, there is a tool called [lint-staged](https://www.npmjs.com/package/lint-staged) that can be used.
@@ -116,12 +150,14 @@ The `x` means exclude and the `f` stands for focused.
 
 ## Running end-to-end tests
 
+E2E Testing involves testing an application's workflow from beginning to end.
 Use `npm run e2e` to execute the end-to-end tests via [Jest](https://jestjs.io/) and [SuperTest](https://www.npmjs.com/package/supertest).
 Use `npm run e2e:watch` to keep executing your tests while watching for file changes in the background.
 You can see the HTML report opening the [index.html](reports/e2e/index.html) file in your web browser.
 
 ## Running smoke tests
 
+Smoke Testing is a technique to verify the critical functionalities of a software.
 Use `npm run smoke` to execute the smoke tests via [Jest](https://jestjs.io/), [SuperTest](https://www.npmjs.com/package/supertest) and [Testcontainers](https://www.testcontainers.org/).
 Use `npm run smoke:watch` to keep executing your tests while watching for file changes in the background.
 You can see the HTML report opening the [index.html](reports/smoke/index.html) file in your web browser.
