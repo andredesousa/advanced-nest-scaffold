@@ -11,11 +11,13 @@ It has a complete development environment configured, including build, test, and
 - [Code scaffolding](#code-scaffolding)
 - [Development mode](#development-mode)
 - [Data persistence](#data-persistence)
+- [Authentication and authorization](#authentication-and-authorization)
 - [Linting and formatting code](#linting-and-formatting-code)
 - [Running unit tests](#running-unit-tests)
 - [Running end-to-end tests](#running-end-to-end-tests)
 - [Running smoke tests](#running-smoke-tests)
 - [Debugging](#debugging)
+- [Healthchecks and logging](#healthchecks-and-logging)
 - [Security, performance and best practices](#security-performance-and-best-practices)
 - [Commit messages convention](#commit-messages-convention)
 - [Build and deployment](#build-and-deployment)
@@ -42,7 +44,9 @@ Based on best practices from the community, Nest and [Angular coding style guide
 |  ├── app
 |  |  ├── auth
 |  |  |  ├── controllers
+|  |  |  ├── decorators
 |  |  |  ├── dtos
+|  |  |  ├── guards
 |  |  |  ├── services
 |  |  |  └── auth.module.ts
 |  |  ├── core
@@ -128,6 +132,22 @@ The project supports database migrations. Use `npm run db:create` to create the 
 Use `npm run db:models` to generate or update the table models in the `db/models` folder.
 The project uses [Sequelize](https://sequelize.org/) a popular Object Relational Mapper (ORM) written in a vanilla JavaScript.
 
+## Authentication and authorization
+
+Authentication is an essential part of most applications. There are many different approaches and strategies to handle authentication.
+
+[JSON Web Tokens](https://jwt.io/) is an authentication standard that works by generating and signing tokens, passing them around between the client-side and server-side applications, passed around via query strings, authorization headers, or other mediums. Having such a valid and non-expired token, extracted from an HTTP Request, signals the fact that the user is authenticated and is allowed to access protected resources.
+
+Authorization refers to the process that determines what a user is able to do.
+For example, an administrative user is allowed to create, edit, and delete posts.
+A non-administrative user is only authorized to read the posts.
+
+You can extract user data from the session. User data is present in each request, as you can see in the next code snippet.
+
+```typescript
+refresh(@Request() { user }: { user: UserSession }): Promise<string>
+```
+
 ## Linting and formatting code
 
 Use `npm run lint` to analyze your code. It includes, `ESLint` and `Prettier`.
@@ -170,8 +190,22 @@ These functionalities are provided natively or based on plugins.
 You can debug tests in chrome inspector with `debugger` keyword if you run `npm run test:debug`, `npm run e2e:debug` or `npm run smoke:debug`.
 When you are using the debug scripts, you need to open the `chrome://inspect` page.
 
+## Healthchecks and logging
+
+The Nest Terminus integration supports you with readiness/liveness health checks.
+Healthchecks are very important when it comes to complex backend setups.
+It is available at [http://localhost:3000/health](http://localhost:3000/health).
+A service, or a component of your infrastructure (e.g., Kubernetes) checks this address continuously.
+Depending on the HTTP status code returned from a GET request to this address the service will take action when it receives an "unhealthy" response.
+
+Nest comes with a built-in text-based logger which is used during application bootstrapping and several other circumstances such as displaying caught exceptions (i.e., system logging).
+However, to improve these messages, it was override by [Pino](https://getpino.io/).
+You can see Pino's configuration by opening the [app.logger.ts](src/app/app.logger.ts) file.
+
 ## Security, performance and best practices
 
+This project has [Helmet](https://www.npmjs.com/package/helmet) to protect the app from some known web vulnerabilities by setting HTTP headers appropriately.
+It has CORS enabled by default. You can see these configurations by opening the [main.ts](src/main.ts) file.
 The `npm audit` command submits a description of the dependencies configured in your package to your default registry and asks for a report of known vulnerabilities
 You can also have npm automatically fix the vulnerabilities by running `npm audit fix`.
 

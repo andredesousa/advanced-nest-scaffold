@@ -25,6 +25,7 @@ function swaggerInitializer(app: INestApplication): OpenAPIObject {
   return document;
 }
 
+// Load local environment variables from .env file.
 const ENV = dotenv.config().parsed as unknown as NodeJS.ProcessEnv;
 
 export const environment: IEnvironment = {

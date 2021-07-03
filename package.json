@@ -27,7 +27,7 @@
     "sonar": "cross-env-shell SONAR_SCANNER_OPTS=-Djavax.net.ssl.trustStore=path-to-certificate/certificate.cert sonar-scanner",
     "swagger": "ts-node -r tsconfig-paths/register src/swagger.ts",
     "clean": "rimraf dist/ reports/",
-    "serve": "npm run build && node dist/main.js",
+    "serve": "npm run build && node -r dotenv/config dist/main.js",
     "e2e": "jest --config e2e/jest.config.js",
     "e2e:watch": "jest -c e2e/jest.config.js --watch",
     "e2e:debug": "node --inspect-brk node_modules/jest/bin/jest.js -c e2e/jest.config.js --run-in-band",
