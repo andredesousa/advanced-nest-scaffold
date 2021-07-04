@@ -10,6 +10,7 @@ It has a complete development environment configured, including build, test, and
 - [Available npm scripts](#available-npm-scripts)
 - [Code scaffolding](#code-scaffolding)
 - [Development mode](#development-mode)
+- [REST interface](#rest-interface)
 - [Data persistence](#data-persistence)
 - [Authentication and authorization](#authentication-and-authorization)
 - [Linting and formatting code](#linting-and-formatting-code)
@@ -17,7 +18,9 @@ It has a complete development environment configured, including build, test, and
 - [Running end-to-end tests](#running-end-to-end-tests)
 - [Running smoke tests](#running-smoke-tests)
 - [Debugging](#debugging)
+- [Profiling](#profiling)
 - [Healthchecks and logging](#healthchecks-and-logging)
+- [Error handling](#error-handling)
 - [Security, performance and best practices](#security-performance-and-best-practices)
 - [Commit messages convention](#commit-messages-convention)
 - [Build and deployment](#build-and-deployment)
@@ -119,6 +122,14 @@ Use `npm run start` to run the app in the development mode.
 This app includes [Swagger](https://swagger.io/). It is available at [http://localhost:3000/api](http://localhost:3000/api).
 The [OpenAPI specification](https://github.com/OAI/OpenAPI-Specification) is exportable by running `npm run swagger` script.
 
+## REST interface
+
+REST is acronym for REpresentational State Transfer.
+The common resource methods are GET/PUT/POST/DELETE.
+This project follows [JSON:API](https://jsonapi.org/) specification for building APIs in JSON.
+To get a visual representation of the interface and send requests for testing purposes go to `http://localhost:3000/api`.
+Alternatively, [Postman](https://www.postman.com/) is currently one of the most popular tools used.
+
 ## Data persistence
 
 This project uses a [PostgreSQL](https://www.postgresql.org/) database.
@@ -190,6 +201,15 @@ These functionalities are provided natively or based on plugins.
 You can debug tests in chrome inspector with `debugger` keyword if you run `npm run test:debug`, `npm run e2e:debug` or `npm run smoke:debug`.
 When you are using the debug scripts, you need to open the `chrome://inspect` page.
 
+## Profiling
+
+Node.js is similar to many other coding languages in the sense that it needs to be used in conjunction with profilers and other tools to debug your program, overcome any bottlenecks, and optimize its functionality.
+To ensure a blazing fast web server, you must first measure its performance so you can optimise it to its fullest potential.
+[AutoCannon](https://www.npmjs.com/package/autocannon) is one of many tools available for this purpose.
+Use `npm run profile` to run the sample load test against the `health` endpoint.
+Use `npm run profile:summarize` to summarize the metrics provided by Node.js built-in profiler.
+In addition, [Clinic.js](https://clinicjs.org/) is a suite of tools to help diagnose and pinpoint your Node.js performance issues.
+
 ## Healthchecks and logging
 
 The Nest Terminus integration supports you with readiness/liveness health checks.
@@ -201,6 +221,18 @@ Depending on the HTTP status code returned from a GET request to this address th
 Nest comes with a built-in text-based logger which is used during application bootstrapping and several other circumstances such as displaying caught exceptions (i.e., system logging).
 However, to improve these messages, it was override by [Pino](https://getpino.io/).
 You can see Pino's configuration by opening the [app.logger.ts](src/app/app.logger.ts) file.
+
+## Error handling
+
+The REST API of the User Preferences signals all error conditions by an HTTP response status of either `4xx` or `5xx`.
+
+Errors that were caused by invalid client requests are mapped to a response status of `4xx`:
+
+- Request objects that violate a constraint given in the API description will result in a `400 Bad Request`,
+- Request that does not have valid authentication credentials for the target resource will result in a `401 Unauthorized`,
+- Requests that refer to a non-existing object will result in a `404 Resource Not Found`.
+
+On the other hand, technical errors that were caused inside the app will result in a `500 Internal Server Error`
 
 ## Security, performance and best practices
 
