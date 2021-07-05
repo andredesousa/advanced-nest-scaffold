@@ -8,6 +8,7 @@ describe('Smoke Testing', () => {
   beforeAll(async () => {
     container = await new GenericContainer('nestjs:latest')
       .withExposedPorts(3000)
+      .withEnv('JWT_SECRET', 'testing')
       .withWaitStrategy(Wait.forLogMessage(/Nest application successfully started/gm))
       .start();
 

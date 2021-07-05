@@ -118,9 +118,11 @@ You can also use `nest generate filter|pipe|service|class|guard|middleware|gatew
 
 ## Development mode
 
-Use `npm run start` to run the app in the development mode.
+Use `npm run start` to run the app in the development mode or `npm run start:watch` to enable watch mode.
+
 This app includes [Swagger](https://swagger.io/). It is available at [http://localhost:3000/api](http://localhost:3000/api).
 The [OpenAPI specification](https://github.com/OAI/OpenAPI-Specification) is exportable by running `npm run swagger` script.
+This script generates the files [openapi.json](reports/swagger/openapi.json) and [openapi.yaml](reports/swagger/openapi.yaml).
 
 ## REST interface
 

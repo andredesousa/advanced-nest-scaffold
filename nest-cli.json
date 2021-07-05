@@ -3,6 +3,25 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "assets": ["assets/**/*"],
-    "watchAssets": true
+    "watchAssets": true,
+    "plugins": [
+      {
+        "name": "@nestjs/swagger",
+        "options": {
+          "classValidatorShim": true,
+          "introspectComments": true
+        }
+      }
+    ]
+  },
+  "projects": {
+    "swagger": {
+      "entryFile": "src/swagger.js"
+    },
+    "prod": {
+      "compilerOptions": {
+        "plugins": []
+      }
+    }
   }
 }

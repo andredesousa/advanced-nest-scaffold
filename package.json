@@ -25,7 +25,7 @@
     "audit:html": "npm-audit-html --output reports/audit/index.html",
     "audit:check": "npm audit --production --audit-level critical",
     "sonar": "cross-env-shell SONAR_SCANNER_OPTS=-Djavax.net.ssl.trustStore=path-to-certificate/certificate.cert sonar-scanner",
-    "swagger": "ts-node -r tsconfig-paths/register src/swagger.ts",
+    "swagger": "nest start swagger",
     "clean": "rimraf dist/ reports/ *.log",
     "serve": "npm run build && node -r dotenv/config dist/main.js",
     "e2e": "jest --config e2e/jest.config.js",
@@ -41,7 +41,7 @@
     "bump": "npm version major && git push",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "prebuild": "rimraf dist",
-    "build": "nest build --webpack -p tsconfig.json",
+    "build": "nest build prod --webpack -p tsconfig.json",
     "release": "docker build -f cicd/docker/Dockerfile -t nestjs .",
     "deploy": "ansible-playbook cicd/deploy/deploy-to-swarm.yaml"
   },

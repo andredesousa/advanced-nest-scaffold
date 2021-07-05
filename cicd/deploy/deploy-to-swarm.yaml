@@ -14,6 +14,13 @@
               nestjs:
                 image: nestjs:latest
                 restart: always
+                environment:
+                  - DB_HOST={{ lookup('env', 'DB_HOST') }}
+                  - DB_NAME={{ lookup('env', 'DB_NAME') }}
+                  - DB_PASSWORD={{ lookup('env', 'DB_PASSWORD') }}
+                  - DB_PORT={{ lookup('env', 'DB_PORT') }}
+                  - DB_USER={{ lookup('env', 'DB_USER') }}
+                  - JWT_SECRET={{ lookup('env', 'JWT_SECRET') }}
                 ports:
                   - "8080:3000"
         resolve_image: always
