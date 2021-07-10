@@ -13,6 +13,7 @@ It has a complete development environment configured, including build, test, and
 - [REST interface](#rest-interface)
 - [Data persistence](#data-persistence)
 - [Authentication and authorization](#authentication-and-authorization)
+- [Internationalization](#internationalization)
 - [Linting and formatting code](#linting-and-formatting-code)
 - [Running unit tests](#running-unit-tests)
 - [Running end-to-end tests](#running-end-to-end-tests)
@@ -63,9 +64,11 @@ Based on best practices from the community, Nest and [Angular coding style guide
 |  |  |  └── shared.module.ts
 |  |  ├── app.controller.spec.ts
 |  |  ├── app.controller.ts
+|  |  ├── app.i18n.ts
 |  |  ├── app.logger.ts
 |  |  └── app.module.ts
 |  ├── assets
+|  |  └── i18n
 |  ├── environments
 |  |  ├── environment.prod.ts
 |  |  └── environment.ts
@@ -150,6 +153,7 @@ The project uses [Sequelize](https://sequelize.org/) a popular Object Relational
 Authentication is an essential part of most applications. There are many different approaches and strategies to handle authentication.
 
 [JSON Web Tokens](https://jwt.io/) is an authentication standard that works by generating and signing tokens, passing them around between the client-side and server-side applications, passed around via query strings, authorization headers, or other mediums. Having such a valid and non-expired token, extracted from an HTTP Request, signals the fact that the user is authenticated and is allowed to access protected resources.
+The default user is `admin` and the password is `admin`. Use for development only.
 
 Authorization refers to the process that determines what a user is able to do.
 For example, an administrative user is allowed to create, edit, and delete posts.
@@ -158,14 +162,38 @@ A non-administrative user is only authorized to read the posts.
 You can extract user data from the session. User data is present in each request, as you can see in the next code snippet.
 
 ```typescript
+@Post('refresh')
 refresh(@Request() { user }: { user: UserSession }): Promise<string>
+```
+
+## Internationalization
+
+You have the library [nestjs-i18n](https://www.npmjs.com/package/nestjs-i18n) for translation your messages.
+It lets you define translations for your content in different languages and switch between them easily.
+You can either use the `I18nService`, the `I18n` decorator or custom implementation to get your translation values.
+This is how you do it with the decorator:
+
+```typescript
+@Get()
+@Public()
+welcome(@I18n() i18n: I18nContext): Promise<string> {
+  return i18n.translate('i18n.WELCOME');
+}
+```
+
+Your translations should be stored in a JSON file. This file looks like this:
+
+```json
+{
+  "HELLO": "Hello {username}",
+}
 ```
 
 ## Linting and formatting code
 
 Use `npm run lint` to analyze your code. It includes, `ESLint` and `Prettier`.
 Many problems can be automatically fixed with `npm run lint:fix`.
-These checks are supplemented with `SonarQube`.
+These checks are supplemented with `SonarQube` and other tools.
 
 Depending on your editor, you may want to add an editor extension to lint and format your code while we type or on-save.
 To ensure all files committed to git don't have any TypeScript, linting, or formatting errors, there is a tool called [lint-staged](https://www.npmjs.com/package/lint-staged) that can be used.
@@ -290,6 +318,7 @@ The subject contains a succinct description of the change.
 
 Run `npm run build` to build the project. The build artifacts will be stored in the `dist` directory.
 In `cicd` folder you can find scripts for your [Jenkins](https://www.jenkins.io/) CI pipeline, a Dockerfile and an example for deploying your application with [Ansible](https://www.ansible.com/) to [Docker Swarm](https://docs.docker.com/engine/swarm/).
+Don't forget to provide all environment variables. All of them are needed to start the container.
 
 ## Support
 

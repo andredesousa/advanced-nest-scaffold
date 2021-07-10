@@ -4,6 +4,6 @@ export class Authentication {
   @Length(4, 20)
   username!: string;
 
-  @Length(8, 20)
+  @Length(4, 20)
   password!: string;
 }

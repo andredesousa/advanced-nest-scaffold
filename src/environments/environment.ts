@@ -30,6 +30,7 @@ const ENV = dotenv.config().parsed as unknown as NodeJS.ProcessEnv;
 
 export const environment: IEnvironment = {
   production: false,
+  assetsPath: 'dist/assets',
   jwtSecret: ENV.JWT_SECRET,
   dbHost: ENV.DB_HOST,
   dbName: ENV.DB_NAME,

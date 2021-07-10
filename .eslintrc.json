@@ -21,12 +21,13 @@
     ],
     "@typescript-eslint/explicit-module-boundary-types": ["error"],
     "@typescript-eslint/no-explicit-any": ["error"],
+    "@typescript-eslint/no-shadow": ["error"],
     "@typescript-eslint/no-unused-vars": ["error"],
     "@typescript-eslint/no-use-before-define": ["error"],
     "@typescript-eslint/no-var-requires": ["error"],
+    "class-methods-use-this": "off",
     "jest/consistent-test-it": "error",
     "jest/no-test-return-statement": "error",
-    "class-methods-use-this": "off",
     "curly": ["error", "all"],
     "import/extensions": [
       "error",
@@ -43,6 +44,7 @@
     ],
     "import/prefer-default-export": "off",
     "no-console": "error",
+    "no-shadow": "off",
     "no-use-before-define": "off",
     "no-useless-constructor": "off",
     "padding-line-between-statements": [

@@ -1,5 +1,6 @@
 import { User } from '@db/models/user';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 
 import { UserDto } from '../dtos/user.dto';
 
@@ -22,7 +23,7 @@ export class UserService {
     const user = new User();
 
     user.username = createUserDto.username;
-    user.password = createUserDto.password;
+    user.password = await bcrypt.hash(createUserDto.password, 10);
     user.email = createUserDto.email;
 
     return user.save();
@@ -52,7 +53,7 @@ export class UserService {
     const user = await this.findOne(updateUserDto.id || -1);
 
     user.username = updateUserDto.username;
-    user.password = updateUserDto.password;
+    user.password = await bcrypt.hash(updateUserDto.password, 10);
     user.email = updateUserDto.email;
 
     return user.save();

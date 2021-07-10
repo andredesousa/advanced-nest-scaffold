@@ -1,6 +1,8 @@
 import { User } from '@db/models/user';
 import { UnauthorizedException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+
 import { Authentication } from '../dtos/authentication.dto';
 import { UserSession } from '../dtos/user-session.dto';
 
@@ -14,11 +16,10 @@ export class AuthService {
    * @returns The user session.
    */
   async login({ password, username }: Authentication): Promise<UserSession> {
-    const user = await User.findOne({ where: { username, password } });
+    const user = await User.findOne({ where: { username } });
+    const isMatch = await bcrypt.compare(password, `${user?.password}`);
 
-    if (!user) {
-      throw new UnauthorizedException();
-    } else {
+    if (user && isMatch) {
       return {
         id: user.id,
         email: user.email,
@@ -26,6 +27,8 @@ export class AuthService {
         accessToken: this.jwtService.sign({ id: user.id, username: user.username }),
       };
     }
+
+    throw new UnauthorizedException();
   }
 
   /**

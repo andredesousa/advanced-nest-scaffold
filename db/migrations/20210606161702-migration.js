@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('user', {
+    await queryInterface.createTable('User', {
       id: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
@@ -10,18 +10,29 @@ module.exports = {
       username: {
         type: Sequelize.DataTypes.STRING(20),
         allowNull: false,
+        unique: true,
       },
       password: {
-        type: Sequelize.DataTypes.STRING(20),
+        type: Sequelize.DataTypes.STRING(65),
         allowNull: false,
       },
       email: {
         type: Sequelize.DataTypes.STRING(50),
         allowNull: false,
+        unique: true,
       },
     });
+
+    await queryInterface.bulkInsert('User', [
+      {
+        id: 1,
+        username: 'admin',
+        password: '$2b$10$jkzR/NI9PCgA3UXhx5T6WOqPJkzhTGAJY/5Z0txIfRt57ThjqfSOe',
+        email: 'admin@admin',
+      },
+    ]);
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('user');
+    await queryInterface.dropTable('User');
   },
 };

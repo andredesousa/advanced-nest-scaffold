@@ -29,27 +29,43 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
     },
     username: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: false,
+      unique: "User_username_key"
     },
     password: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING(65),
       allowNull: false
     },
     email: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: false,
+      unique: "User_email_key"
     }
   }, {
     sequelize,
-    tableName: 'user',
+    tableName: 'User',
     schema: 'public',
     timestamps: false,
     indexes: [
       {
-        name: "user_pkey",
+        name: "User_email_key",
+        unique: true,
+        fields: [
+          { name: "email" },
+        ]
+      },
+      {
+        name: "User_pkey",
         unique: true,
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "User_username_key",
+        unique: true,
+        fields: [
+          { name: "username" },
         ]
       },
     ]

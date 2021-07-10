@@ -3,6 +3,7 @@ import { OpenAPIObject } from '@nestjs/swagger';
 
 export interface IEnvironment {
   production: boolean;
+  assetsPath: string;
   jwtSecret: string;
   dbHost: string;
   dbName: string;

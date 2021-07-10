@@ -1,6 +1,6 @@
 import type { Sequelize, Model } from "sequelize";
-import { SequelizeMeta } from "./SequelizeMeta";
-import type { SequelizeMetaAttributes, SequelizeMetaCreationAttributes } from "./SequelizeMeta";
+import { SequelizeMeta } from "./sequelize_meta";
+import type { SequelizeMetaAttributes, SequelizeMetaCreationAttributes } from "./sequelize_meta";
 import { User } from "./user";
 import type { UserAttributes, UserCreationAttributes } from "./user";
 

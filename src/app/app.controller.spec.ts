@@ -6,14 +6,19 @@ import { AppModule } from './app.module';
 describe('AppController', () => {
   let appController: AppController;
   let healthCheckService: HealthCheckService;
+  let app: TestingModule;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    app = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
     appController = app.get<AppController>(AppController);
     healthCheckService = app.get<HealthCheckService>(HealthCheckService);
+  });
+
+  afterEach(async () => {
+    await app.close();
   });
 
   describe('root', () => {

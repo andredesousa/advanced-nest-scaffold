@@ -10,7 +10,7 @@ describe('UserService', () => {
 
   beforeEach(() => {
     service = new UserService();
-    user = Mock.of<User>();
+    user = Mock.of<User>({ password: '1234' });
   });
 
   describe('#findAll', () => {

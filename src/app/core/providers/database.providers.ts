@@ -3,9 +3,11 @@ import { Logger, Provider } from '@nestjs/common';
 import { Sequelize } from 'sequelize';
 import { environment } from '../../../environments/environment';
 
+export const SEQUELIZE = 'SEQUELIZE';
+
 export const databaseProviders: Provider[] = [
   {
-    provide: 'SEQUELIZE',
+    provide: SEQUELIZE,
     inject: [Logger],
     useFactory: (logger: Logger): Sequelize => {
       const sequelize = new Sequelize({
