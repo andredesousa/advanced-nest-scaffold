@@ -13,7 +13,9 @@ import { LOGGING_CONFIG } from './app.logger';
 
 @Module({
   imports: [
-    LoggerModule.forRoot(LOGGING_CONFIG),
+    AuthModule,
+    CoreModule,
+    FeatureModule,
     I18nModule.forRoot({
       fallbackLanguage: Languages.EN,
       parser: I18nJsonParser,
@@ -22,10 +24,8 @@ import { LOGGING_CONFIG } from './app.logger';
         watch: !environment.production,
       },
     }),
-    AuthModule,
-    CoreModule,
-    FeatureModule,
     TerminusModule,
+    LoggerModule.forRoot(LOGGING_CONFIG),
   ],
   controllers: [AppController],
   providers: [],
