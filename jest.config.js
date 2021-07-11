@@ -6,7 +6,7 @@
  */
 module.exports = {
   roots: ['<rootDir>/src'],
-  setupFiles: ['<rootDir>/src/test.ts'],
+  setupFilesAfterEnv: ['<rootDir>/src/test.ts'],
   testMatch: ['<rootDir>/src/app/**/*.spec.ts'],
   testEnvironment: 'node',
   moduleFileExtensions: ['js', 'json', 'ts'],
