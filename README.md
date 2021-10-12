@@ -254,7 +254,7 @@ You can see Pino's configuration by opening the [app.logger.ts](src/app/app.logg
 
 ## Error handling
 
-The REST API of the User Preferences signals all error conditions by an HTTP response status of either `4xx` or `5xx`.
+The REST API signals all error conditions by an HTTP response status of either `4xx` or `5xx`.
 
 Errors that were caused by invalid client requests are mapped to a response status of `4xx`:
 
